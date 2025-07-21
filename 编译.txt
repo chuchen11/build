@@ -1,0 +1,51 @@
+patch -p1 < 补丁        打补丁
+
+
+
+补丁提示1 out of 1 hunk FAILED -- saving rejects to file kernel/apk_sign.c.rej
+
+进apk_sign.c
+
+将
+bool is_manager_apk(char *path)
+{
+	return check_v2_signature(path, EXPECTED_NEXT_SIZE, EXPECTED_NEXT_HASH);
+}
+
+改为
+bool ksu_is_manager_apk(char *path)
+{
+	return check_v2_signature(path, EXPECTED_NEXT_SIZE, EXPECTED_NEXT_HASH);
+}
+
+
+
+
+
+
+编译
+clang版本从build.config.common查看
+指定clang版本
+设置工具变量 可以有gcc
+设置架构为64位
+强制使用clang编译
+用gcc工具编译
+一些东西有可能会用到gcc 虽然强制了clang编译 但是加上还是比较好
+这些可以不用加  因为你强制用clang编译 也就是llvm
+桌面/内核源码/arch/arm64/configs/vendor/找到机型代号
+gki_defconfig 是你的配置文件 他会根据你的配置文件再生成一个.config的主要配置文件
+你需要修改你的配置文件 也就是gki_defconfig 修改 CONFIG_LTO_CLANG_FULL=y 为thin 也就是CONFIG_LTO_CLANG_THIN=y
+这个命令改了就不需要你改了
+版本号
+分支后端
+组合
+内核版本名称位置 内核源码/Makefile 中的EXTRAVERSION =
+同时删除文件中werror相关代码
+选择ksu
+
+
+内核源码/scripts/setlocalversion删除后内核名称无编号
+
+
+
+桌面/内核源码/arch/arm64/configs/vendor/gki_defconfig
